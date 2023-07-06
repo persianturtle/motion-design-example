@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --easing: cubic-bezier(0.25, 0, 0, 1);
+        --duration-open: 500ms;
+        --duration-close: 200ms;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      /* Container styles */
+
+      .container {
+        position: relative;
+        box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      .container:not(.is-open) {
+        transition: width var(--duration-close) var(--easing),
+          height var(--duration-close) var(--easing),
+          border-radius calc(var(--duration-close) / 3) var(--easing)
+            calc(var(--duration-close) * 2 / 3);
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+      }
+
+      .container.is-open {
+        transition: width var(--duration-open) var(--easing),
+          height var(--duration-open) var(--easing),
+          border-radius calc(var(--duration-open) * 2 / 3) var(--easing);
+        width: 400px;
+        height: 710px;
+        border-radius: 20px;
+      }
+
+      .container > .closed,
+      .container > .open {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .container:not(.is-open) .open,
+      .container.is-open .closed {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .container:not(.is-open) .closed,
+      .container.is-open .open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .container:not(.is-open) .closed {
+        transition: opacity calc(var(--duration-close) * 2 / 3) var(--easing)
+            calc(var(--duration-close) / 3),
+          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
+      }
+
+      .container:not(.is-open) .open {
+        transition: opacity calc(var(--duration-close) / 3) var(--easing),
+          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
+      }
+
+      .container.is-open .open {
+        transition: opacity calc(var(--duration-open) * 2 / 3) var(--easing)
+            calc(var(--duration-open) / 3),
+          visibility 0ms var(--easing) calc(var(--duration-open) / 3);
+      }
+
+      .container.is-open .closed {
+        transition: opacity calc(var(--duration-open) / 3) var(--easing),
+          visibility 0ms var(--easing) calc(var(--duration-open) / 3);
+      }
+
+      /* Closed state styles */
+
+      .container > .closed {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container > .closed button {
+        height: 80px;
+        width: 80px;
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+      }
+
+      .container > .closed button svg {
+        width: 30px;
+      }
+
+      /* Open state styles */
+
+      .container .open {
+        background-image: linear-gradient(
+          to bottom,
+          rgb(99, 0, 239) 0%,
+          rgb(99, 0, 239) 15%,
+          white 15%,
+          white 100%
+        );
+        width: 400px;
+        height: 710px;
+        padding: 2rem 1rem;
+      }
+
+      .container .open form {
+        padding-top: 3rem;
+      }
+
+      .container .open button {
+        width: 4rem;
+        height: 4rem;
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        padding: 1rem;
+      }
+
+      .container .open button svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .container .open form .input-wrapper {
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      .container .open form input {
+        font: inherit;
+        font-size: 1rem;
+        line-height: 2.5rem;
+        border: 1px solid gray;
+        border-radius: 0.25rem;
+        width: 20rem;
+        padding: 0 1rem;
+      }
+
+      .container .open form label {
+        transition: transform 200ms ease-in-out, padding 200ms ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1rem;
+        line-height: 2rem;
+        background-color: white;
+        transform: translate(1rem, 0.25rem);
+      }
+
+      .container .open form input:not(:placeholder-shown) ~ label,
+      .container .open form input:focus ~ label {
+        --scale: 0.8;
+        --padding: 0.5rem;
+        transform: translate(
+            calc((1rem * var(--scale)) - (var(--padding) / var(--scale))),
+            -50%
+          )
+          scale(var(--scale));
+        padding: 0 var(--padding);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="closed">
+        <button type="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill-rule="evenodd"
+            viewBox="0 0 24 24"
+          >
+            <path d="M11 2v9H2v2h9v9h2v-9h9v-2h-9V2Z" />
+          </svg>
+        </button>
+      </div>
+      <div class="open">
+        <button type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              fill="white"
+              d="M5.929 12 11.5 6.429l-1.5-1.5L2.929 12 10 19.071l1.5-1.5z"
+            />
+            <path fill="white" d="M5 11h16v2H5z" />
+          </svg>
+        </button>
+        <form>
+          <div class="input-wrapper">
+            <input id="title" type="text" placeholder=" " />
+            <label for="title">Title</label>
+          </div>
+          <div class="input-wrapper">
+            <input id="description" type="text" placeholder=" " />
+            <label for="description">Description</label>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      const container = document.querySelector(".container");
+      const open = document.querySelector(".container > .closed button");
+      const close = document.querySelector(".container > .open button");
+
+      [open, close].forEach((button) => {
+        button.addEventListener("click", (event) => {
+          container.classList.toggle("is-open");
+        });
+      });
+
+      container.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+
+      window.addEventListener("click", (event) => {
+        container.classList.remove("is-open");
+      });
+    </script>
+  </body>
+</html>
