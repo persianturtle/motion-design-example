@@ -25,9 +25,7 @@
         width: 400px;
         height: 710px;
 
-        transition: transform var(--duration-close) var(--easing),
-          border-radius calc(var(--duration-close) * 2 / 3) var(--easing)
-            calc(var(--duration-close) / 3);
+        transition: transform var(--duration-close) var(--easing);
         transform-origin: center bottom;
         transform: scale(calc(80 / 400), calc(80 / 710));
 
@@ -50,8 +48,7 @@
       }
 
       .container.is-open {
-        transition: transform var(--duration-open) var(--easing),
-          border-radius var(--duration-open) var(--easing);
+        transition: transform var(--duration-open) var(--easing);
 
         transform: scale(1, 1);
         border-radius: 10px;
@@ -73,24 +70,20 @@
 
       .container:not(.is-open) .closed {
         transition: opacity calc(var(--duration-open) * 2 / 3) var(--easing)
-            calc(var(--duration-open) / 3),
-          visibility 0ms var(--easing) calc(var(--duration-open) / 3);
+          calc(var(--duration-open) / 3);
       }
 
       .container:not(.is-open) .open {
-        transition: opacity calc(var(--duration-open) / 3) var(--easing),
-          visibility 0ms var(--easing) calc(var(--duration-open) / 3);
+        transition: opacity calc(var(--duration-open) / 3) var(--easing);
       }
 
       .container.is-open .open {
         transition: opacity calc(var(--duration-close) * 2 / 3) var(--easing)
-            calc(var(--duration-close) / 3),
-          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
+          calc(var(--duration-close) / 3);
       }
 
       .container.is-open .closed {
-        transition: opacity calc(var(--duration-close) / 3) var(--easing),
-          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
+        transition: opacity calc(var(--duration-close) / 3) var(--easing);
       }
 
       /* Closed state styles */
