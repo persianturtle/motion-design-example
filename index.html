@@ -25,11 +25,11 @@
         width: 400px;
         height: 710px;
 
-        transition: scale var(--duration-close) var(--easing),
+        transition: transform var(--duration-close) var(--easing),
           border-radius calc(var(--duration-close) * 2 / 3) var(--easing)
             calc(var(--duration-close) / 3);
         transform-origin: center bottom;
-        scale: calc(80 / 400) calc(80 / 710);
+        transform: scale(calc(80 / 400), calc(80 / 710));
 
         background-color: white;
         border-radius: 50%;
@@ -37,7 +37,7 @@
       }
 
       .container > .closed {
-        scale: calc(400 / 80) calc(710 / 80);
+        transform: scale(calc(400 / 80), calc(710 / 80));
       }
 
       .container > .closed,
@@ -50,10 +50,10 @@
       }
 
       .container.is-open {
-        transition: scale var(--duration-open) var(--easing),
+        transition: transform var(--duration-open) var(--easing),
           border-radius var(--duration-open) var(--easing);
 
-        scale: 1 1;
+        transform: scale(1, 1);
         border-radius: 10px;
       }
 
