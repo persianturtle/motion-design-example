@@ -21,6 +21,7 @@
         left: 0;
         right: 0;
         margin-inline: auto;
+        will-change: transform;
 
         width: 400px;
         height: 710px;
@@ -60,12 +61,14 @@
       .container.is-open .closed {
         opacity: 0;
         visibility: hidden;
+        will-change: opacity;
       }
 
       .container:not(.is-open) .closed,
       .container.is-open .open {
         opacity: 1;
         visibility: visible;
+        will-change: opacity;
       }
 
       .container:not(.is-open) .closed {
