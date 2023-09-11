@@ -6,48 +6,38 @@
     <style>
       :root {
         --easing: cubic-bezier(0.25, 0, 0, 1);
-        --duration-open: 500ms;
-        --duration-close: 200ms;
-      }
-
-      html,
-      body {
-        width: 100%;
-        height: 100%;
+        --duration-open: 600ms;
+        --duration-close: 400ms;
       }
 
       body {
         margin: 0;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
+        background-color: paleturquoise;
       }
 
-      /* Container styles */
-
       .container {
-        position: relative;
-        box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+
+        width: 400px;
+        height: 710px;
+
+        transition: scale var(--duration-close) var(--easing),
+          border-radius calc(var(--duration-close) * 2 / 3) var(--easing)
+            calc(var(--duration-close) / 3);
+        transform-origin: center bottom;
+        scale: calc(80 / 400) calc(80 / 710);
+
+        background-color: white;
+        border-radius: 50%;
         overflow: hidden;
       }
 
-      .container:not(.is-open) {
-        transition: width var(--duration-close) var(--easing),
-          height var(--duration-close) var(--easing),
-          border-radius calc(var(--duration-close) / 3) var(--easing)
-            calc(var(--duration-close) * 2 / 3);
-        height: 80px;
-        width: 80px;
-        border-radius: 50%;
-      }
-
-      .container.is-open {
-        transition: width var(--duration-open) var(--easing),
-          height var(--duration-open) var(--easing),
-          border-radius calc(var(--duration-open) * 2 / 3) var(--easing);
-        width: 400px;
-        height: 710px;
-        border-radius: 20px;
+      .container > .closed {
+        scale: calc(400 / 80) calc(710 / 80);
       }
 
       .container > .closed,
@@ -58,6 +48,16 @@
         right: 0;
         bottom: 0;
       }
+
+      .container.is-open {
+        transition: scale var(--duration-open) var(--easing),
+          border-radius var(--duration-open) var(--easing);
+
+        scale: 1 1;
+        border-radius: 10px;
+      }
+
+      /* Transition opacity and visibility */
 
       .container:not(.is-open) .open,
       .container.is-open .closed {
@@ -72,25 +72,25 @@
       }
 
       .container:not(.is-open) .closed {
-        transition: opacity calc(var(--duration-close) * 2 / 3) var(--easing)
-            calc(var(--duration-close) / 3),
-          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
-      }
-
-      .container:not(.is-open) .open {
-        transition: opacity calc(var(--duration-close) / 3) var(--easing),
-          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
-      }
-
-      .container.is-open .open {
         transition: opacity calc(var(--duration-open) * 2 / 3) var(--easing)
             calc(var(--duration-open) / 3),
           visibility 0ms var(--easing) calc(var(--duration-open) / 3);
       }
 
-      .container.is-open .closed {
+      .container:not(.is-open) .open {
         transition: opacity calc(var(--duration-open) / 3) var(--easing),
           visibility 0ms var(--easing) calc(var(--duration-open) / 3);
+      }
+
+      .container.is-open .open {
+        transition: opacity calc(var(--duration-close) * 2 / 3) var(--easing)
+            calc(var(--duration-close) / 3),
+          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
+      }
+
+      .container.is-open .closed {
+        transition: opacity calc(var(--duration-close) / 3) var(--easing),
+          visibility 0ms var(--easing) calc(var(--duration-close) / 3);
       }
 
       /* Closed state styles */
@@ -124,13 +124,7 @@
           white 15%,
           white 100%
         );
-        width: 400px;
-        height: 710px;
         padding: 2rem 1rem;
-      }
-
-      .container .open form {
-        padding-top: 3rem;
       }
 
       .container .open button {
@@ -147,42 +141,18 @@
         height: 100%;
       }
 
-      .container .open form .input-wrapper {
-        position: relative;
-        margin-bottom: 1rem;
-      }
-
-      .container .open form input {
-        font: inherit;
-        font-size: 1rem;
-        line-height: 2.5rem;
-        border: 1px solid gray;
-        border-radius: 0.25rem;
-        width: 20rem;
-        padding: 0 1rem;
+      .container .open form {
+        margin-top: 3rem;
       }
 
       .container .open form label {
-        transition: transform 200ms ease-in-out, padding 200ms ease-in-out;
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 1rem;
-        line-height: 2rem;
-        background-color: white;
-        transform: translate(1rem, 0.25rem);
+        display: block;
+        margin-top: 10px;
       }
 
-      .container .open form input:not(:placeholder-shown) ~ label,
-      .container .open form input:focus ~ label {
-        --scale: 0.8;
-        --padding: 0.5rem;
-        transform: translate(
-            calc((1rem * var(--scale)) - (var(--padding) / var(--scale))),
-            -50%
-          )
-          scale(var(--scale));
-        padding: 0 var(--padding);
+      .container .open form label input {
+        width: 80%;
+        height: 40px;
       }
     </style>
   </head>
@@ -210,14 +180,14 @@
           </svg>
         </button>
         <form>
-          <div class="input-wrapper">
-            <input id="title" type="text" placeholder=" " />
-            <label for="title">Title</label>
-          </div>
-          <div class="input-wrapper">
-            <input id="description" type="text" placeholder=" " />
-            <label for="description">Description</label>
-          </div>
+          <label>
+            First Name<br />
+            <input type="text" />
+          </label>
+          <label>
+            Last Name<br />
+            <input type="text" />
+          </label>
         </form>
       </div>
     </div>
